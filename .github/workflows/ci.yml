@@ -1,0 +1,30 @@
+name: CI
+
+on:
+  push:
+    branches: [main, dev]
+  pull_request:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: wasm32-unknown-unknown
+
+      - uses: Swatinem/rust-cache@v2
+
+      - name: Check Backend (Binary target)
+        run: cargo check --bin backend
+
+      - name: Check Frontend (WASM target)
+        run: cargo check --target wasm32-unknown-unknown -p frontend
+
+      - name: Test Pure Rust Crates
+        run: cargo test -p shared -p html-parser -p css-selector -p traversal
+
+      - name: Check All Workspace Members
+        run: cargo check --workspace --exclude frontend
