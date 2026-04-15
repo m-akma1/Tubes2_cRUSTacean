@@ -7,16 +7,22 @@ Yapping. Tulis nanti.
 
 ## Requirements and Build Instructions
 
-To install the the program, you need **RUST**. You can download it from the [official documentation](https://doc.rust-lang.org/book/ch01-01-installation.html).
-
-1. Clone and move to the repository root directory, then build the project
+First, clone and move to the repository root directory.
 ```sh
 git clone https://github.com/m-akma1/Tubes2_cRUSTacean
 cd Tubes2_cRUSTacean
+```
+
+### Run Natively
+
+To install the the program, you need **RUST**. You can download it from the [official documentation](https://doc.rust-lang.org/book/ch01-01-installation.html).
+
+1. Build the project to resolve dependencies
+```sh
 cargo build
 ```
 
-2. Build and run the backend
+2. Then, build and run the backend
 ```sh
 cd crates/backend && cargo run
 ```
@@ -26,7 +32,15 @@ cd crates/backend && cargo run
 cd crates/frontend && trunk serve
 ```
 
-Open [`localhost:3000`](localhost:3000) to open the website.
+Open [`localhost:2211`](localhost:2211) to open the website.
+
+### Run using Docker
+
+To do this, you must have installed **Docker**. You can download it from the [official website](https://www.docker.com/). Just run the following command when the Docker engine active, then open the web at [`localhost:2211`](localhost:2211).
+
+```sh
+docker compose up
+```
 
 ## Credits
 
