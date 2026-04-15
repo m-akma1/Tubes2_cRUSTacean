@@ -1,0 +1,11 @@
+[build]
+target  = "index.html"
+release = false
+
+[watch]
+ignore = ["../backend", "../../target"]
+
+[serve]
+port    = 2211
+open    = true
+address = "127.0.0.1"
