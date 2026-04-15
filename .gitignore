@@ -1,0 +1,6 @@
+/target
+/crates/frontend/dist
+/crates/frontend/.trunk
+**/.DS_Store
+*.pem
+Cargo.lock
