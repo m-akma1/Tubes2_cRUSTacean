@@ -1,4 +1,3 @@
-# ── Stage 1: compile WASM bundle ──────────────────────────────────────────────
 FROM rust:1-slim-bookworm AS builder
 
 RUN apt-get update && apt-get install -y \
@@ -7,17 +6,14 @@ RUN apt-get update && apt-get install -y \
 
 RUN rustup target add wasm32-unknown-unknown
 
-# Install Trunk. --locked pins to the exact version in Trunk's Cargo.lock.
 RUN cargo install trunk --locked
 
 WORKDIR /app
 COPY . .
 
-# Build the release WASM bundle into crates/frontend/dist/
 WORKDIR /app/crates/frontend
 RUN trunk build --release
 
-# ── Stage 2: nginx to serve the bundle ───────────────────────────────────────
 FROM nginx:1.29.8-alpine-slim
 
 COPY --from=builder /app/crates/frontend/dist /usr/share/nginx/html

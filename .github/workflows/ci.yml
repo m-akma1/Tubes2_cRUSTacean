@@ -24,7 +24,7 @@ jobs:
         run: cargo check --target wasm32-unknown-unknown -p frontend
 
       - name: Test Pure Rust Crates
-        run: cargo test -p shared -p html-parser -p css-selector -p traversal
+        run: cargo test -p shared -p html-parser -p css-selector -p algorithm
 
       - name: Check All Workspace Members
         run: cargo check --workspace --exclude frontend
