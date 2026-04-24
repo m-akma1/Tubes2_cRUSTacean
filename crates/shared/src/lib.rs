@@ -33,23 +33,30 @@ impl DomTree {
         Self::default()
     }
 
-    pub fn add_node(&mut self, data: NodeData, parent: Option<usize>, depth: usize) -> usize {
+    pub fn add_node(&mut self, data: NodeData, parent: Option<usize>) -> Result<usize, String> {
+        let depth = if let Some(p) = parent {
+            self.nodes.get(p)
+                    .map(|n| n.depth + 1)
+                    .ok_or_else(|| format!("Parent index {} does not exist!", p))?
+        } else {0};
+
         let index = self.nodes.len();
+        if self.nodes.is_empty() {
+            self.root = Some(index);
+        }
+
         self.nodes.push(Node {
             index,
             parent,
             children: Vec::new(),
             data,
             depth,
-        });
+        });        
         if let Some(p) = parent {
             self.nodes[p].children.push(index);
         }
-        index
-    }
 
-    pub fn get(&self, index: usize) -> Option<&Node> {
-        self.nodes.get(index)
+        return Ok(index)
     }
 
     pub fn max_depth(&self) -> usize {
