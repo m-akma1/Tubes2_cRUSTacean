@@ -1,3 +1,6 @@
+use serde::Serialize;
+use serde::Deserialize;
+
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub enum SimpleSelector {
     Universal,
