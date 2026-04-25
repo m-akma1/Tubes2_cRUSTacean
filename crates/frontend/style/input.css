@@ -127,6 +127,10 @@
     @apply text-2xl font-semibold text-brand-coral;
   }
 
+  .accent-h3 {
+    @apply text-xl font-bold text-brand-olive;
+  }
+
   .muted-copy {
     @apply text-slate-600;
   }
@@ -150,15 +154,15 @@
   }
 
   .tree-shell {
-    @apply rounded-2xl border p-4 shadow-lg;
+    @apply rounded-2xl border p-4 shadow-lg overflow-hidden;
     border-color: rgba(132, 188, 218, 0.35);
     background-color: rgba(255, 255, 255, 0.82);
   }
 
   .tree-scroll {
-    @apply overflow-auto rounded-xl border bg-white;
+    @apply overflow-auto rounded-xl border bg-white w-full max-w-full;
     border-color: rgba(132, 188, 218, 0.25);
-    max-height: 36rem;
+    max-height: 65vh;
   }
 
   .tree-meta-grid {

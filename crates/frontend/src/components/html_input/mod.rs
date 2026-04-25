@@ -35,8 +35,11 @@ pub fn HtmlInputStage() -> impl IntoView {
             <div class="card space-y-5">
                 <h1 class="title">"Tugas Besar 2"</h1>
                 <h2 class="accent-title">"IF2211 Strategi Algoritma"</h2>
+                <h3 class="accent-h3">
+                    "Pemanfaatan Algoritma BFS dan DFS dalam Mekanisme Penelusuran CSS pada Pohon Document Object Model"
+                </h3>
                 <p class="muted-copy leading-7">
-                    "Deskripsi singkat"
+                    "Dibuat dengan RUST, FULL STACK! Terima kasih kepada WebAssembly. Fronted dibuat menggunakan Leptos via Trunk dengan TaiwindCSS. Backend dibuat native dengan Axum dan Tokio. Web sudah dideploy lewat Microsoft Azure. Luar biasa ngidenya emang :)"
                 </p>
                 <div class="grid gap-3 sm:grid-cols-3">
                     <div class="stat-badge items-start text-left">

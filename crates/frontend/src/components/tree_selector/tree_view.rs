@@ -355,7 +355,7 @@ pub fn SvgTreeView(
             <div class="legend-row">
                 <span class="legend-chip">
                     <span class="legend-dot" style="background:#067BC2"></span>
-                    "Document"
+                    "Dokument Root"
                 </span>
                 <span class="legend-chip">
                     <span class="legend-dot" style="background:#F37748"></span>
@@ -371,15 +371,15 @@ pub fn SvgTreeView(
                 </span>
                 <span class="legend-chip">
                     <span class="legend-dot" style="background:#ECC30B"></span>
-                    "Visited"
+                    "Dikunjungi"
                 </span>
                 <span class="legend-chip">
                     <span class="legend-dot" style="background:#D56062"></span>
-                    "Matched"
+                    "Hasil"
                 </span>
                 <span class="legend-chip">
                     <span class="legend-dot" style="background:#F37748"></span>
-                    "Current"
+                    "Saat ini"
                 </span>
             </div>
 

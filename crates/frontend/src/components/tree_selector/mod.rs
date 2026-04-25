@@ -109,8 +109,8 @@ pub fn TreeSelectorStage() -> impl IntoView {
     };
 
     view! {
-        <section class="panel-grid items-start">
-            <div class="space-y-6">
+        <section class="space-y-6">
+            <div class="space-y-6 min-w-0">
                 <div class="card space-y-4">
                     <div>
                         <h2 class="accent-title">"Visualisasi Pohon DOM"</h2>
@@ -138,15 +138,19 @@ pub fn TreeSelectorStage() -> impl IntoView {
                     </div>
                 </div>
 
-                <SvgTreeView
-                    tree=tree_data.clone()
-                    render_depth=render_depth.get()
-                    on_pick=Some(pick_node)
-                    visited_nodes=None
-                    matched_nodes=None
-                    active_node=None
-                    highlighted_edges=None
-                />
+                {move || {
+                    view! {
+                        <SvgTreeView
+                            tree=tree_data.clone()
+                            render_depth=render_depth.get()
+                            on_pick=Some(pick_node)
+                            visited_nodes=None
+                            matched_nodes=None
+                            active_node=None
+                            highlighted_edges=None
+                        />
+                    }
+                }}
             </div>
 
             <div class="card space-y-5">
