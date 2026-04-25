@@ -200,15 +200,20 @@ pub(crate) fn TraversalAnimation(
                 </button>
             </div>
 
-            <SvgTreeView
-                tree=tree
-                render_depth=render_depth.get()
-                on_pick=None
-                visited_nodes=Some(step_state.get().0)
-                matched_nodes=Some(step_state.get().1)
-                active_node=step_state.get().3
-                highlighted_edges=Some(step_state.get().2)
-            />
+            {move || {
+                let state = step_state.get();
+                view! {
+                    <SvgTreeView
+                        tree=tree.clone()
+                        render_depth=render_depth.get()
+                        on_pick=None
+                        visited_nodes=Some(state.0)
+                        matched_nodes=Some(state.1)
+                        active_node=state.3
+                        highlighted_edges=Some(state.2)
+                    />
+                }
+            }}
         </div>
     }
 }

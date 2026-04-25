@@ -35,7 +35,7 @@ pub fn ResultsStage() -> impl IntoView {
                                 <div class="notice-banner info">{message}</div>
                             })}
 
-                            <div class="grid gap-4 lg:grid-cols-2">
+                            <div class="space-y-4">
                                 <TraversalAnimation result=result.clone() tree=tree.clone() current_step=current_step />
                                 <TraversalLog result=result tree=tree current_step=current_step />
                             </div>
@@ -48,11 +48,13 @@ pub fn ResultsStage() -> impl IntoView {
                         .into_any(),
                 }
             } else {
+                let tree = ctx.dom_tree.get();
                 view! {
                     <LcaResultPanel
                         lca_result=ctx.lca_result.get()
                         node_a=ctx.lca_node_a_text.get()
                         node_b=ctx.lca_node_b_text.get()
+                        tree=tree
                     />
                 }
                     .into_any()
