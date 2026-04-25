@@ -172,4 +172,16 @@ mod tests {
             dp.matched_indices.iter().copied().collect::<HashSet<_>>()
         );
     }
+
+    #[test]
+    fn parallel_top_n_is_capped() {
+        let tree = wide_tree();
+        let sel = parse("span").unwrap();
+
+        let bfs_res = bfs_parallel(&tree, &sel, Some(2));
+        let dfs_res = dfs_parallel(&tree, &sel, Some(2));
+
+        assert!(bfs_res.matched_indices.len() <= 2);
+        assert!(dfs_res.matched_indices.len() <= 2);
+    }
 }
