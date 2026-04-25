@@ -15,3 +15,5 @@ serde              = { workspace = true }
 tower-http         = { workspace = true }
 html-parser        = { path = "../html-parser" }
 shared             = { path = "../shared" }
+algorithm          = { path = "../algorithm" }
+css-selector       = { path = "../css-selector" }
