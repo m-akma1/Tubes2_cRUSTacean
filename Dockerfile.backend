@@ -16,5 +16,5 @@ RUN apt-get update && apt-get install -y \
 
 COPY --from=builder /app/target/release/backend /usr/local/bin/backend
 
-EXPOSE 2026
+EXPOSE 2211
 CMD ["backend"]

@@ -22,8 +22,8 @@ pub fn build_cors_layer(config: &AppConfig) -> CorsLayer {
     let mut origins = parse_allowed_origins(&config.cors_allowed_origins);
     if origins.is_empty() {
         origins = vec![
-            HeaderValue::from_static("http://localhost:2211"),
-            HeaderValue::from_static("http://127.0.0.1:2211"),
+            HeaderValue::from_static("http://localhost:80"),
+            HeaderValue::from_static("http://127.0.0.1:80"),
         ];
     }
     base.allow_origin(origins)

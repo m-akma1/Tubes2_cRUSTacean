@@ -14,11 +14,11 @@ pub struct AppConfig {
 impl AppConfig {
     pub fn from_env() -> Self {
         Self {
-            host: env::var("HOST").unwrap_or_else(|_| "127.0.0.1".to_string()),
+            host: env::var("HOST").unwrap_or_else(|_| "0.0.0.0".to_string()),
             port: env::var("PORT")
                 .ok()
                 .and_then(|value| value.parse::<u16>().ok())
-                .unwrap_or(2026),
+                .unwrap_or(2211),
             max_request_body_bytes: env_usize("MAX_REQUEST_BODY_BYTES", 2 * 1024 * 1024),
             scrape_max_redirects: env_usize("SCRAPE_MAX_REDIRECTS", 3),
             scrape_max_body_bytes: env_usize("SCRAPE_MAX_BODY_BYTES", 2 * 1024 * 1024),

@@ -4,7 +4,7 @@ services:
       context: .
       dockerfile: Dockerfile.frontend
     ports:
-      - "2211:2211"
+      - "80:80"
     depends_on:
       - backend
     restart: unless-stopped
@@ -14,8 +14,8 @@ services:
       context: .
       dockerfile: Dockerfile.backend
     ports:
-      - "2026:2026"
+      - "2211:2211"
     environment:
       RUST_LOG: "info"
-      PORT: "2026"
+      PORT: "2211"
     restart: unless-stopped

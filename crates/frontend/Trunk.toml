@@ -1,15 +1,15 @@
 [build]
 target  = "index.html"
-release = false
+release = true
 
 [watch]
 ignore = ["../backend", "../../target"]
 
 [serve]
-port    = 2211
+port    = 80
 open    = true
 address = "127.0.0.1"
 
 [[proxy]]
 rewrite = "/api/"
-backend = "http://127.0.0.1:2026/"
+backend = "http://127.0.0.1:2211/"
