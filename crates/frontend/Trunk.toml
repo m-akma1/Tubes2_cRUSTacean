@@ -6,10 +6,10 @@ release = true
 ignore = ["../backend", "../../target"]
 
 [serve]
-port    = 80
+port    = 2211
 open    = true
 address = "127.0.0.1"
 
 [[proxy]]
 rewrite = "/api/"
-backend = "http://127.0.0.1:2211/"
+backend = "http://127.0.0.1:2026/"

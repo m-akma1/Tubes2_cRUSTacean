@@ -23,7 +23,7 @@ impl AppConfig {
             scrape_max_redirects: env_usize("SCRAPE_MAX_REDIRECTS", 3),
             scrape_max_body_bytes: env_usize("SCRAPE_MAX_BODY_BYTES", 2 * 1024 * 1024),
             app_env: env::var("APP_ENV")
-                .unwrap_or_else(|_| "development".to_string())
+                .unwrap_or_else(|_| "production".to_string())
                 .to_ascii_lowercase(),
             cors_allowed_origins: env::var("CORS_ALLOWED_ORIGINS").unwrap_or_default(),
         }
