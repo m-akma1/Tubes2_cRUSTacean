@@ -67,9 +67,14 @@ pub fn ResultsStage() -> impl IntoView {
                 <button
                     class="btn-primary"
                     on:click=move |_| {
+                        use crate::app::HtmlInputMode;
+
                         ctx.dom_tree.set(None);
                         ctx.algorithm_result.set(None);
                         ctx.css_selector_text.set(String::new());
+                        ctx.html_input_mode.set(HtmlInputMode::RawHtml);
+                        ctx.html_input_value.set(String::new());
+                        ctx.top_n.set(None);
                         ctx.stage.set(AppStage::HtmlInput);
                     }
                 >
