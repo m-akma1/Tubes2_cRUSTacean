@@ -157,7 +157,11 @@ fn node_palette(data: &NodeData) -> (&'static str, &'static str, &'static str) {
 }
 
 #[component]
-pub fn SvgTreeView(tree: DomTree, render_depth: usize) -> impl IntoView {
+pub fn SvgTreeView(
+    tree: DomTree,
+    render_depth: usize,
+    on_pick: Option<Callback<usize>>,
+) -> impl IntoView {
     let Some((nodes, width, height)) = build_layout(&tree, render_depth) else {
         return view! {
             <div class="notice-banner info">"No tree available yet."</div>
@@ -201,9 +205,11 @@ pub fn SvgTreeView(tree: DomTree, render_depth: usize) -> impl IntoView {
                         .iter()
                         .map(|layout| {
                             let node = &tree.nodes[layout.index];
+                            let node_index = layout.index;
                             let title = node_title(&node.data);
                             let subtitle = node_subtitle(&node.data);
                             let (fill, stroke, text_fill) = node_palette(&node.data);
+                            let on_pick = on_pick.clone();
 
                             let shape = match &node.data {
                                 NodeData::Document => view! {
@@ -264,7 +270,14 @@ pub fn SvgTreeView(tree: DomTree, render_depth: usize) -> impl IntoView {
                             };
 
                             view! {
-                                <g>
+                                <g
+                                    class=move || if on_pick.is_some() { "cursor-pointer" } else { "" }
+                                    on:click=move |_| {
+                                        if let Some(callback) = on_pick {
+                                            callback.run(node_index);
+                                        }
+                                    }
+                                >
                                     {shape}
                                     <text
                                         x={layout.x}
