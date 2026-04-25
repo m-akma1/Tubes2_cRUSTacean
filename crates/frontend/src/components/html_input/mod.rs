@@ -1,9 +1,8 @@
 use leptos::prelude::*;
 use leptos::task::spawn_local;
 
-use crate::api::scrape_url;
+use crate::api::{parse_html_tree, scrape_tree};
 use crate::app::{AppContext, AppStage, HtmlInputMode};
-use crate::temp::{temp_html_parser, temp_scrape_url};
 
 fn looks_like_url(value: &str) -> bool {
     value.starts_with("http://") || value.starts_with("https://")
@@ -153,14 +152,28 @@ pub fn HtmlInputStage() -> impl IntoView {
                             error_message.set(None);
 
                             match ctx.html_input_mode.get() {
-                                HtmlInputMode::RawHtml => match temp_html_parser(&trimmed) {
-                                    Ok(tree) => {
-                                        ctx.dom_tree.set(Some(tree));
-                                        ctx.algorithm_result.set(None);
-                                        ctx.stage.set(AppStage::TreeSelector);
-                                    }
-                                    Err(message) => error_message.set(Some(message)),
-                                },
+                                HtmlInputMode::RawHtml => {
+                                    is_loading.set(true);
+                                    let ctx = ctx;
+                                    let error_message = error_message;
+                                    let is_loading = is_loading;
+
+                                    spawn_local(async move {
+                                        match parse_html_tree(&trimmed).await {
+                                            Ok(response) => {
+                                                ctx.dom_tree.set(Some(response.tree));
+                                                ctx.tree_stats.set(Some(response.stats));
+                                                ctx.algorithm_result.set(None);
+                                                ctx.lca_result.set(None);
+                                                ctx.backend_message.set(None);
+                                                ctx.stage.set(AppStage::TreeSelector);
+                                            }
+                                            Err(message) => error_message.set(Some(message)),
+                                        }
+
+                                        is_loading.set(false);
+                                    });
+                                }
                                 HtmlInputMode::Url => {
                                     if !looks_like_url(&trimmed) {
                                         error_message.set(Some("URL tidak valid. URL harus diawali http:// or https://".to_string()));
@@ -173,15 +186,13 @@ pub fn HtmlInputStage() -> impl IntoView {
                                     let is_loading = is_loading;
 
                                     spawn_local(async move {
-                                        let html_result = match scrape_url(&trimmed).await {
-                                            Ok(markup) => Ok(markup),
-                                            Err(_) => temp_scrape_url(&trimmed).await,
-                                        };
-
-                                        match html_result.and_then(|markup| temp_html_parser(&markup)) {
-                                            Ok(tree) => {
-                                                ctx.dom_tree.set(Some(tree));
+                                        match scrape_tree(&trimmed).await {
+                                            Ok(response) => {
+                                                ctx.dom_tree.set(Some(response.tree));
+                                                ctx.tree_stats.set(Some(response.stats));
                                                 ctx.algorithm_result.set(None);
+                                                ctx.lca_result.set(None);
+                                                ctx.backend_message.set(None);
                                                 ctx.stage.set(AppStage::TreeSelector);
                                             }
                                             Err(message) => error_message.set(Some(message)),
