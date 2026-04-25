@@ -1,0 +1,91 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    @apply bg-surface-950 text-slate-900;
+  }
+
+  body {
+    @apply bg-[radial-gradient(circle_at_top_left,_rgba(6,123,194,0.22),_transparent_28%),radial-gradient(circle_at_20%_80%,_rgba(184,192,115,0.28),_transparent_24%),radial-gradient(circle_at_bottom_right,_rgba(243,119,72,0.22),_transparent_30%),linear-gradient(180deg,_#fffdf4_0%,_#fff7df_55%,_#fef3cf_100%)];
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply px-5 py-2 rounded-lg bg-brand-teal hover:bg-brand-coral active:bg-brand-lobster
+           text-white font-medium shadow-lg shadow-brand-teal/20 transition-all duration-150
+           disabled:opacity-40 disabled:cursor-not-allowed;
+  }
+
+  .btn-secondary {
+    @apply px-5 py-2 rounded-lg border text-brand-teal font-medium transition-colors duration-150;
+    border-color: rgba(132, 188, 218, 0.5);
+    background-color: rgba(255, 255, 255, 0.72);
+  }
+
+  .btn-secondary:hover {
+    background-color: rgba(132, 188, 218, 0.16);
+  }
+
+  .btn-secondary:active {
+    background-color: rgba(132, 188, 218, 0.24);
+  }
+
+  .btn-ghost {
+    @apply px-4 py-1.5 rounded-lg text-slate-600 hover:text-brand-coral hover:bg-white/60
+           transition-colors duration-150 text-sm;
+  }
+
+  .card {
+    @apply rounded-2xl border bg-white/70 p-6 shadow-2xl backdrop-blur-sm;
+    border-color: rgba(132, 188, 218, 0.3);
+  }
+
+  .input-field {
+    @apply w-full rounded-lg border border-brand-sky/35 bg-white px-3 py-2
+           text-slate-900 placeholder-slate-500 focus:outline-none focus:ring-2
+           focus:ring-brand-teal focus:border-transparent transition;
+  }
+
+  .input-field.error {
+    @apply border-brand-lobster focus:ring-brand-lobster;
+  }
+
+  .stat-badge {
+    @apply inline-flex flex-col items-center rounded-xl border px-4 py-2 text-center;
+    border-color: rgba(184, 192, 115, 0.3);
+    background-color: rgba(184, 192, 115, 0.12);
+  }
+
+  .stage-label {
+    @apply text-xs font-semibold uppercase tracking-[0.22em] text-brand-amber;
+  }
+
+  .accent-title {
+    @apply text-2xl font-semibold text-brand-coral;
+  }
+
+  .muted-copy {
+    @apply text-slate-600;
+  }
+
+  .metric-value {
+    @apply text-xl font-bold text-brand-teal;
+  }
+
+  .metric-label {
+    @apply mt-0.5 text-xs text-slate-600;
+  }
+
+  .metric-title {
+    @apply text-sm font-medium text-slate-800;
+  }
+
+  .result-chip {
+    @apply rounded-xl border px-4 py-3 text-sm font-mono text-slate-800;
+    border-color: rgba(184, 192, 115, 0.35);
+    background-color: rgba(184, 192, 115, 0.16);
+  }
+}
