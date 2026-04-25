@@ -14,6 +14,7 @@ gloo-timers              = { workspace = true }
 gloo-net                 = { workspace = true }
 serde_json               = { workspace = true }
 serde                    = { workspace = true }
+urlencoding              = { workspace = true }
 shared                   = { path = "../shared" }
 css-selector             = { path = "../css-selector" }
 

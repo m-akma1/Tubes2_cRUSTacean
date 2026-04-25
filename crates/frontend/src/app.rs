@@ -1,5 +1,5 @@
 use leptos::prelude::*;
-use shared::{AlgorithmKind, AlgorithmResult, DomTree};
+use shared::{AlgorithmKind, AlgorithmResult, DomTree, LcaResponse, TreeStats};
 
 use crate::components::html_input::HtmlInputStage;
 use crate::components::tree_selector::TreeSelectorStage;
@@ -18,16 +18,29 @@ pub enum AppStage {
     Results,
 }
 
+#[derive(Clone, Copy, PartialEq, Eq, Debug)]
+pub enum RunMode {
+    Traversal,
+    Lca,
+}
+
 #[derive(Clone, Copy, Debug)]
 pub struct AppContext {
     pub stage: RwSignal<AppStage>,
     pub html_input_mode: RwSignal<HtmlInputMode>,
     pub html_input_value: RwSignal<String>,
     pub dom_tree: RwSignal<Option<DomTree>>,
+    pub tree_stats: RwSignal<Option<TreeStats>>,
+    pub run_mode: RwSignal<RunMode>,
     pub css_selector_text: RwSignal<String>,
     pub algorithm_kind: RwSignal<AlgorithmKind>,
+    pub parallel_mode: RwSignal<bool>,
     pub top_n: RwSignal<Option<usize>>,
+    pub lca_node_a_text: RwSignal<String>,
+    pub lca_node_b_text: RwSignal<String>,
     pub algorithm_result: RwSignal<Option<AlgorithmResult>>,
+    pub lca_result: RwSignal<Option<LcaResponse>>,
+    pub backend_message: RwSignal<Option<String>>,
 }
 
 impl AppContext {
@@ -37,10 +50,17 @@ impl AppContext {
             html_input_mode:   RwSignal::new(HtmlInputMode::Url),
             html_input_value:  RwSignal::new(String::new()),
             dom_tree:          RwSignal::new(None),
+            tree_stats:        RwSignal::new(None),
+            run_mode:          RwSignal::new(RunMode::Traversal),
             css_selector_text: RwSignal::new(String::new()),
             algorithm_kind:    RwSignal::new(AlgorithmKind::Bfs),
+            parallel_mode:     RwSignal::new(false),
             top_n:             RwSignal::new(None),
+            lca_node_a_text:   RwSignal::new(String::new()),
+            lca_node_b_text:   RwSignal::new(String::new()),
             algorithm_result:  RwSignal::new(None),
+            lca_result:        RwSignal::new(None),
+            backend_message:   RwSignal::new(None),
         }
     }
 }

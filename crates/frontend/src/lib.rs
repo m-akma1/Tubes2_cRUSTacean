@@ -1,5 +1,4 @@
 mod app;
-pub(crate) mod temp;
 pub(crate) mod api;
 pub(crate) mod components;
 
