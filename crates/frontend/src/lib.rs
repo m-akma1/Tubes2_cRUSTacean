@@ -1,4 +1,7 @@
 mod app;
+pub(crate) mod temp;
+pub(crate) mod api;
+pub(crate) mod components;
 
 use wasm_bindgen::prelude::wasm_bindgen;
 use leptos::mount::mount_to_body;
