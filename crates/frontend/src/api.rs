@@ -6,6 +6,8 @@ use shared::{
     TraverseRequest, TraverseResponse,
 };
 
+const API_BASE: &str = "/api";
+
 fn parse_error_message(status: u16, status_text: &str, body: &str) -> String {
     if let Ok(value) = serde_json::from_str::<Value>(body) {
         if let Some(message) = value.get("error").and_then(|v| v.as_str()) {
@@ -43,7 +45,7 @@ pub async fn parse_html_tree(html: &str) -> Result<ParseHtmlResponse, String> {
         options: None,
     };
 
-    let response = Request::post("/parse-html")
+    let response = Request::post(&format!("{API_BASE}/parse-html"))
         .json(&payload)
         .map_err(|e| format!("Failed to build parse request: {e}"))?
         .send()
@@ -55,7 +57,7 @@ pub async fn parse_html_tree(html: &str) -> Result<ParseHtmlResponse, String> {
 
 pub async fn scrape_tree(url: &str) -> Result<ScrapeTreeResponse, String> {
     let encoded_url = urlencoding::encode(url);
-    let endpoint = format!("/scrape?url={}&include_html=false", encoded_url);
+    let endpoint = format!("{API_BASE}/scrape?url={}&include_html=false", encoded_url);
 
     let response = Request::get(&endpoint)
         .send()
@@ -66,7 +68,7 @@ pub async fn scrape_tree(url: &str) -> Result<ScrapeTreeResponse, String> {
 }
 
 pub async fn run_traverse(request: &TraverseRequest) -> Result<TraverseResponse, String> {
-    let response = Request::post("/traverse")
+    let response = Request::post(&format!("{API_BASE}/traverse"))
         .json(request)
         .map_err(|e| format!("Failed to build traversal request: {e}"))?
         .send()
@@ -77,7 +79,7 @@ pub async fn run_traverse(request: &TraverseRequest) -> Result<TraverseResponse,
 }
 
 pub async fn run_lca(request: &LcaRequest) -> Result<LcaResponse, String> {
-    let response = Request::post("/lca")
+    let response = Request::post(&format!("{API_BASE}/lca"))
         .json(request)
         .map_err(|e| format!("Failed to build LCA request: {e}"))?
         .send()

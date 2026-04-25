@@ -9,3 +9,7 @@ ignore = ["../backend", "../../target"]
 port    = 2211
 open    = true
 address = "127.0.0.1"
+
+[[proxy]]
+rewrite = "/api/"
+backend = "http://127.0.0.1:2026/"
