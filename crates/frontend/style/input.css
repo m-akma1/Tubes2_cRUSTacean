@@ -13,6 +13,10 @@
 }
 
 @layer components {
+  .panel-grid {
+    @apply grid gap-6 lg:grid-cols-[1.15fr_0.85fr];
+  }
+
   .btn-primary {
     @apply px-5 py-2 rounded-lg bg-brand-teal hover:bg-brand-coral active:bg-brand-lobster
            text-white font-medium shadow-lg shadow-brand-teal/20 transition-all duration-150
@@ -43,10 +47,56 @@
     border-color: rgba(132, 188, 218, 0.3);
   }
 
+  .field-label {
+    @apply mb-2 block text-sm font-semibold text-slate-800;
+  }
+
+  .field-hint {
+    @apply mt-2 text-sm text-slate-600;
+  }
+
+  .notice-banner {
+    @apply rounded-xl border px-4 py-3 text-sm;
+  }
+
+  .notice-banner.error {
+    border-color: rgba(213, 96, 98, 0.38);
+    background-color: rgba(213, 96, 98, 0.12);
+    @apply text-slate-800;
+  }
+
+  .notice-banner.info {
+    border-color: rgba(132, 188, 218, 0.38);
+    background-color: rgba(132, 188, 218, 0.14);
+    @apply text-slate-800;
+  }
+
+  .toggle-row {
+    @apply flex flex-wrap gap-2;
+  }
+
+  .toggle-chip {
+    @apply rounded-full border px-4 py-2 text-sm font-medium transition-colors duration-150;
+    border-color: rgba(132, 188, 218, 0.45);
+    background-color: rgba(255, 255, 255, 0.62);
+    color: #0f172a;
+  }
+
+  .toggle-chip:hover {
+    background-color: rgba(132, 188, 218, 0.15);
+  }
+
+  .toggle-chip-active {
+    @apply text-white;
+    border-color: rgba(6, 123, 194, 0.9);
+    background-color: rgba(6, 123, 194, 0.92);
+  }
+
   .input-field {
-    @apply w-full rounded-lg border border-brand-sky/35 bg-white px-3 py-2
+    @apply w-full rounded-lg border bg-white px-3 py-2
            text-slate-900 placeholder-slate-500 focus:outline-none focus:ring-2
            focus:ring-brand-teal focus:border-transparent transition;
+    border-color: rgba(132, 188, 218, 0.35);
   }
 
   .input-field.error {
@@ -61,6 +111,10 @@
 
   .stage-label {
     @apply text-xs font-semibold uppercase tracking-[0.22em] text-brand-amber;
+  }
+
+  .title {
+    @apply text-4xl font-semibold text-brand-lobster;
   }
 
   .accent-title {
@@ -87,5 +141,35 @@
     @apply rounded-xl border px-4 py-3 text-sm font-mono text-slate-800;
     border-color: rgba(184, 192, 115, 0.35);
     background-color: rgba(184, 192, 115, 0.16);
+  }
+
+  .tree-shell {
+    @apply rounded-2xl border p-4 shadow-lg;
+    border-color: rgba(132, 188, 218, 0.35);
+    background-color: rgba(255, 255, 255, 0.82);
+  }
+
+  .tree-scroll {
+    @apply overflow-auto rounded-xl border bg-white;
+    border-color: rgba(132, 188, 218, 0.25);
+    max-height: 36rem;
+  }
+
+  .tree-meta-grid {
+    @apply mt-4 grid gap-3 sm:grid-cols-3;
+  }
+
+  .legend-row {
+    @apply mt-3 flex flex-wrap gap-2 text-sm text-slate-700;
+  }
+
+  .legend-chip {
+    @apply inline-flex items-center gap-2 rounded-full border px-3 py-1.5;
+    border-color: rgba(132, 188, 218, 0.3);
+    background-color: rgba(255, 255, 255, 0.72);
+  }
+
+  .legend-dot {
+    @apply h-3 w-3 rounded-full;
   }
 }
