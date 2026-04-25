@@ -6,5 +6,4 @@ edition = "2024"
 [dependencies]
 shared      = { path = "../shared" }
 html5ever   = { workspace = true }
-markup5ever = { workspace = true }
 serde       = { workspace = true }
