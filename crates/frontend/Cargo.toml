@@ -11,7 +11,12 @@ leptos                   = { workspace = true }
 wasm-bindgen             = { workspace = true }
 console_error_panic_hook = { workspace = true }
 gloo-timers              = { workspace = true }
+gloo-net                 = { workspace = true }
 serde_json               = { workspace = true }
+serde                    = { workspace = true }
+urlencoding              = { workspace = true }
+shared                   = { path = "../shared" }
+css-selector             = { path = "../css-selector" }
 
 [profile.release]
 opt-level     = "z"
