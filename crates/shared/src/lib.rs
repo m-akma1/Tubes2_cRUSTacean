@@ -98,3 +98,75 @@ pub struct TraversalBundle {
     pub dfs: Option<AlgorithmResult>,
     pub tree: DomTree,                 
 }
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct TreeStats {
+    pub node_count: usize,
+    pub edge_count: usize,
+    pub max_depth: usize,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct ParseOptionsDto {
+    pub strict: bool,
+    pub include_doctype: bool,
+}
+
+impl Default for ParseOptionsDto {
+    fn default() -> Self {
+        Self {
+            strict: false,
+            include_doctype: true,
+        }
+    }
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct ScrapeTreeResponse {
+    pub requested_url: String,
+    pub final_url: String,
+    pub status_code: u16,
+    pub content_type: Option<String>,
+    pub html: Option<String>,
+    pub tree: DomTree,
+    pub stats: TreeStats,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct ParseHtmlRequest {
+    pub html: String,
+    pub options: Option<ParseOptionsDto>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct ParseHtmlResponse {
+    pub tree: DomTree,
+    pub stats: TreeStats,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct TraverseRequest {
+    pub tree: DomTree,
+    pub selector: String,
+    pub algorithm: AlgorithmKind,
+    pub top_n: Option<usize>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct TraverseResponse {
+    pub result: Option<AlgorithmResult>,
+    pub message: Option<String>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct LcaRequest {
+    pub tree: DomTree,
+    pub node_a: usize,
+    pub node_b: usize,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct LcaResponse {
+    pub lca_index: Option<usize>,
+    pub message: Option<String>,
+}
