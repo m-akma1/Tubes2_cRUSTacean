@@ -1,4 +1,5 @@
 use std::collections::HashMap;
+use std::collections::HashSet;
 
 use leptos::prelude::*;
 use shared::{DomTree, NodeData};
@@ -161,6 +162,10 @@ pub fn SvgTreeView(
     tree: DomTree,
     render_depth: usize,
     on_pick: Option<Callback<usize>>,
+    visited_nodes: Option<Vec<usize>>,
+    matched_nodes: Option<Vec<usize>>,
+    active_node: Option<usize>,
+    highlighted_edges: Option<Vec<(usize, usize)>>,
 ) -> impl IntoView {
     let Some((nodes, width, height)) = build_layout(&tree, render_depth) else {
         return view! {
@@ -174,6 +179,19 @@ pub fn SvgTreeView(
         .map(|node| (node.index, node.clone()))
         .collect::<HashMap<_, _>>();
 
+    let visited_set = visited_nodes
+        .unwrap_or_default()
+        .into_iter()
+        .collect::<HashSet<_>>();
+    let matched_set = matched_nodes
+        .unwrap_or_default()
+        .into_iter()
+        .collect::<HashSet<_>>();
+    let edge_set = highlighted_edges
+        .unwrap_or_default()
+        .into_iter()
+        .collect::<HashSet<_>>();
+
     let visible_nodes = nodes.len();
     let visible_edges = nodes.iter().filter(|node| node.parent.is_some()).count();
     let view_box = format!("0 0 {} {}", width, height);
@@ -186,16 +204,18 @@ pub fn SvgTreeView(
                         .iter()
                         .filter_map(|node| {
                             let parent = node.parent.and_then(|index| nodes_by_index.get(&index)).cloned()?;
+                            let is_highlight = edge_set.contains(&(parent.index, node.index))
+                                || edge_set.contains(&(node.index, parent.index));
                             Some(view! {
                                 <line
                                     x1={parent.x}
                                     y1={parent.y + 22.0}
                                     x2={node.x}
                                     y2={node.y - 22.0}
-                                    stroke="#84BCDA"
-                                    stroke-width="3"
+                                    stroke={if is_highlight { "#F37748" } else { "#84BCDA" }}
+                                    stroke-width={if is_highlight { "5" } else { "3" }}
                                     stroke-linecap="round"
-                                    opacity="0.78"
+                                    opacity={if is_highlight { "1.0" } else { "0.78" }}
                                 />
                             })
                         })
@@ -208,7 +228,33 @@ pub fn SvgTreeView(
                             let node_index = layout.index;
                             let title = node_title(&node.data);
                             let subtitle = node_subtitle(&node.data);
-                            let (fill, stroke, text_fill) = node_palette(&node.data);
+                            let (base_fill, base_stroke, base_text_fill) = node_palette(&node.data);
+                            let is_visited = visited_set.contains(&layout.index);
+                            let is_matched = matched_set.contains(&layout.index);
+                            let is_active = active_node.is_some_and(|index| index == layout.index);
+
+                            let fill = if is_active {
+                                "#F37748"
+                            } else if is_matched {
+                                "#D56062"
+                            } else if is_visited {
+                                "#ECC30B"
+                            } else {
+                                base_fill
+                            };
+
+                            let stroke = if is_active || is_matched || is_visited {
+                                "#0F172A"
+                            } else {
+                                base_stroke
+                            };
+
+                            let text_fill = if is_active || is_matched {
+                                "#FFFFFF"
+                            } else {
+                                base_text_fill
+                            };
+
                             let on_pick = on_pick.clone();
 
                             let shape = match &node.data {
@@ -322,6 +368,18 @@ pub fn SvgTreeView(
                 <span class="legend-chip">
                     <span class="legend-dot" style="background:#FFFFFF;border:1px solid #84BCDA"></span>
                     "Text node"
+                </span>
+                <span class="legend-chip">
+                    <span class="legend-dot" style="background:#ECC30B"></span>
+                    "Visited"
+                </span>
+                <span class="legend-chip">
+                    <span class="legend-dot" style="background:#D56062"></span>
+                    "Matched"
+                </span>
+                <span class="legend-chip">
+                    <span class="legend-dot" style="background:#F37748"></span>
+                    "Current"
                 </span>
             </div>
 

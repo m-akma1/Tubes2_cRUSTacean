@@ -1,7 +1,7 @@
 mod depth_control;
 mod lca_controls;
 mod traversal_controls;
-mod tree_view;
+pub(crate) mod tree_view;
 mod validation;
 
 use leptos::prelude::*;
@@ -138,7 +138,15 @@ pub fn TreeSelectorStage() -> impl IntoView {
                     </div>
                 </div>
 
-                <SvgTreeView tree=tree_data.clone() render_depth=render_depth.get() on_pick=Some(pick_node) />
+                <SvgTreeView
+                    tree=tree_data.clone()
+                    render_depth=render_depth.get()
+                    on_pick=Some(pick_node)
+                    visited_nodes=None
+                    matched_nodes=None
+                    active_node=None
+                    highlighted_edges=None
+                />
             </div>
 
             <div class="card space-y-5">

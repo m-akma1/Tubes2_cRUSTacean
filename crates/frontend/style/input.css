@@ -71,6 +71,12 @@
     @apply text-slate-800;
   }
 
+  .notice-banner.warning {
+    border-color: rgba(236, 195, 11, 0.45);
+    background-color: rgba(236, 195, 11, 0.18);
+    @apply text-slate-800;
+  }
+
   .toggle-row {
     @apply flex flex-wrap gap-2;
   }
@@ -171,5 +177,34 @@
 
   .legend-dot {
     @apply h-3 w-3 rounded-full;
+  }
+
+  .log-scroll {
+    @apply overflow-auto rounded-xl border bg-white;
+    border-color: rgba(132, 188, 218, 0.25);
+    max-height: 34rem;
+  }
+
+  .log-table {
+    @apply w-full text-sm;
+    border-collapse: collapse;
+  }
+
+  .log-table th {
+    @apply sticky top-0 z-10 px-3 py-2 text-left text-xs font-semibold uppercase tracking-wide;
+    color: #0f172a;
+    background-color: rgba(255, 247, 223, 0.95);
+  }
+
+  .log-row td {
+    @apply border-t px-3 py-2;
+    border-color: rgba(132, 188, 218, 0.25);
+    color: #1e293b;
+  }
+
+  .log-row.current td {
+    background-color: rgba(243, 119, 72, 0.16);
+    color: #0f172a;
+    font-weight: 600;
   }
 }
