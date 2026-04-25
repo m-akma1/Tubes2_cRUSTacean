@@ -59,6 +59,9 @@ impl<'a> TreeIndex<'a> {
     /// `O(log n)` ancestry test using the LCA table: `true` iff `a` is `b` or a strict ancestor
     /// of `b` in the DOM tree (same as `a` being on the path from the root to `b`).
     pub fn is_ancestor(&self, a: usize, b: usize) -> bool {
+        if self.tree.nodes.get(a).is_none() || self.tree.nodes.get(b).is_none() {
+            return false;
+        }
         self.lca.lca(a, b) == a
     }
 }
