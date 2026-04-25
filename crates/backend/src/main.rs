@@ -11,8 +11,8 @@ use reqwest::Client;
 use serde::Deserialize;
 use std::time::Duration;
 use shared::{
-    DomTree, LcaRequest, LcaResponse, ParseHtmlRequest, ParseHtmlResponse, ScrapeTreeResponse,
-    TraverseRequest, TraverseResponse, TreeStats,
+    AlgorithmKind, DomTree, LcaRequest, LcaResponse, ParseHtmlRequest, ParseHtmlResponse,
+    ScrapeTreeResponse, TraverseRequest, TraverseResponse, TreeStats,
 };
 use tower_http::cors::CorsLayer;
 
@@ -157,27 +157,55 @@ async fn parse_html(
 }
 
 async fn traverse(Json(_payload): Json<TraverseRequest>) -> impl IntoResponse {
-    let response = TraverseResponse {
-        result: None,
-        message: Some(
-            "TUNGGU ALGORITMA Yak :)"
-                .to_string(),
-        ),
+    let selector = match css_selector::parse(&_payload.selector) {
+        Ok(selector) => selector,
+        Err(error) => {
+            let response = TraverseResponse {
+                result: None,
+                message: Some(format!("Invalid selector: {error}")),
+            };
+            return (StatusCode::BAD_REQUEST, Json(response));
+        }
     };
 
-    (StatusCode::NOT_IMPLEMENTED, Json(response))
+    let result = match (_payload.algorithm, _payload.parallel) {
+        (AlgorithmKind::Bfs, true) => {
+            algorithm::bfs_parallel(&_payload.tree, &selector, _payload.top_n)
+        }
+        (AlgorithmKind::Dfs, true) => {
+            algorithm::dfs_parallel(&_payload.tree, &selector, _payload.top_n)
+        }
+        (AlgorithmKind::Bfs, false) => algorithm::bfs(&_payload.tree, &selector, _payload.top_n),
+        (AlgorithmKind::Dfs, false) => algorithm::dfs(&_payload.tree, &selector, _payload.top_n),
+    };
+
+    let response = TraverseResponse {
+        result: Some(result),
+        message: None,
+    };
+
+    (StatusCode::OK, Json(response))
 }
 
-async fn lca(Json(_payload): Json<LcaRequest>) -> impl IntoResponse {
-    let response = LcaResponse {
-        lca_index: None,
-        message: Some(
-            "TUNGGU ALGORITMA Yak :)"
-                .to_string(),
-        ),
-    };
-
-    (StatusCode::NOT_IMPLEMENTED, Json(response))
+async fn lca(Json(payload): Json<LcaRequest>) -> impl IntoResponse {
+    match algorithm::lca(&payload.tree, payload.node_a, payload.node_b) {
+        Some(index) => {
+            let response = LcaResponse {
+                found: true,
+                lca_index: Some(index),
+                message: None,
+            };
+            (StatusCode::OK, Json(response))
+        }
+        None => {
+            let response = LcaResponse {
+                found: false,
+                lca_index: None,
+                message: Some("Invalid node indices or empty tree.".to_string()),
+            };
+            (StatusCode::BAD_REQUEST, Json(response))
+        }
+    }
 }
 
 #[tokio::main]

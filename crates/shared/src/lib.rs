@@ -150,6 +150,8 @@ pub struct TraverseRequest {
     pub selector: String,
     pub algorithm: AlgorithmKind,
     pub top_n: Option<usize>,
+    #[serde(default)]
+    pub parallel: bool,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -167,6 +169,7 @@ pub struct LcaRequest {
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct LcaResponse {
+    pub found: bool,
     pub lca_index: Option<usize>,
     pub message: Option<String>,
 }
