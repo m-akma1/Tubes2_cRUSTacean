@@ -6,7 +6,10 @@ use shared::{
     TraverseRequest, TraverseResponse,
 };
 
-const API_BASE: &str = "/api";
+const API_BASE: &str = match option_env!("API_BASE_URL") {
+    Some(url) => url,
+    None => "/api",
+};
 
 fn parse_error_message(status: u16, status_text: &str, body: &str) -> String {
     if let Ok(value) = serde_json::from_str::<Value>(body) {
